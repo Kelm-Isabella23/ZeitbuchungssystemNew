@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Dashboard</h1>
+
+<p>Gesamtzeit: <b>{{ total_all }}</b> Minuten</p>
+
+{% if total_all == 0 %}
+  <p>Noch keine Berichte vorhanden.</p>
+{% else %}
+  <table border="1" cellpadding="6">
+    <tr>
+      <th>Modul</th>
+      <th>Minuten</th>
+      <th>Anteil (%)</th>
+    </tr>
+    {% for r in rows %}
+      <tr>
+        <td>{{ r.module }}</td>
+        <td>{{ r.minutes }}</td>
+        <td>{{ r.percent }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+{% endif %}
+{% endblock %}
