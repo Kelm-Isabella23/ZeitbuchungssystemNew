@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Admin: Offene Anträge</h1>
+
+{% if pending|length == 0 %}
+  <p>Keine offenen Anträge.</p>
+{% else %}
+  <table border="1" cellpadding="6">
+    <tr>
+      <th>User</th>
+      <th>Beantragt</th>
+      <th>Aktion</th>
+    </tr>
+    {% for r in pending %}
+      <tr>
+        <td>{{ r.user.username }}</td>
+        <td>{{ r.requested_role }}</td>
+        <td>
+          <form method="post" style="display:inline;">
+            {% csrf_token %}
+            <input type="hidden" name="req_id" value="{{ r.id }}">
+            <button name="action" value="approve">Genehmigen</button>
+            <button name="action" value="reject">Ablehnen</button>
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+{% endif %}
+
+<p class="no-print"><a href="{% url 'dashboard' %}">Zurück</a></p>
+{% endblock %}

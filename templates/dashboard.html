@@ -2,6 +2,27 @@
 {% block content %}
 <h1>Dashboard</h1>
 
+
+<div class="no-print" style="margin-bottom:16px;">
+  {% if role == "USER" %}
+    <form method="post" action="{% url 'request_vip' %}">
+      {% csrf_token %}
+      <button type="submit">VIP beantragen</button>
+    </form>
+  {% elif role == "VIP" %}
+    <form method="post" action="{% url 'request_admin' %}">
+      {% csrf_token %}
+      <button type="submit">Administrator beantragen</button>
+    </form>
+  {% elif role == "ADMIN" %}
+    <p>
+      <a href="{% url 'admin_requests' %}">Admin: Anträge</a> |
+      <a href="{% url 'admin_users' %}">Admin: Benutzer</a>
+    </p>
+  {% endif %}
+</div>
+
+
 <p>Gesamtzeit: <b>{{ total_all }}</b> Minuten</p>
 
 {% if total_all == 0 %}
