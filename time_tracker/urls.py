@@ -17,5 +17,8 @@ urlpatterns = [
     path("request-admin/", views.request_admin, name="request_admin"),
     path("admin-panel/requests/", views.admin_requests, name="admin_requests"),
     path("admin-panel/users/", views.admin_users, name="admin_users"),
+
+    path("vip/export/", views.vip_export, name="vip_export"),
+    path("vip/import/", views.vip_import, name="vip_import"),
 ]
 

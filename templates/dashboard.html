@@ -22,6 +22,31 @@
   {% endif %}
 </div>
 
+{% if role == "VIP" or role == "ADMIN" %}
+  <hr>
+  <h3>VIP-Funktionen</h3>
+
+  <p>
+    Export:
+    <a href="{% url 'vip_export' %}?format=json">JSON</a> |
+    <a href="{% url 'vip_export' %}?format=csv">CSV</a> |
+    <a href="{% url 'vip_export' %}?format=xml">XML</a>
+  </p>
+
+  <form method="post" action="{% url 'vip_import' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label>Import (überschreibt alle Reports):</label><br>
+    <select name="format">
+      <option value="json">JSON</option>
+      <option value="csv">CSV</option>
+      <option value="xml">XML</option>
+    </select>
+    <input type="file" name="file" required>
+    <button type="submit">Importieren</button>
+  </form>
+{% endif %}
+
+
 
 <p>Gesamtzeit: <b>{{ total_all }}</b> Minuten</p>
 
