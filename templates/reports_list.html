@@ -2,14 +2,13 @@
 {% block content %}
 <h1>Meine Arbeitsberichte</h1>
 
-<p class="no-print">
-  <a href="{% url 'report_new' %}">+ Neuer Bericht</a>
-</p>
-
 {% if reports|length == 0 %}
   <p>Noch keine Berichte vorhanden.</p>
 {% else %}
-  <table border="1" cellpadding="6">
+  <div class="actions no-print">
+    <a class="btn btn-primary" href="{% url 'report_new' %}">+ Neuer Bericht</a>
+  </div>
+  <table class="table">
     <tr>
       <th>Datum</th>
       <th>Modul</th>

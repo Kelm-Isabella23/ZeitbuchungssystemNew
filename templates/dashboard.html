@@ -1,72 +1,117 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Dashboard</h1>
+<div class="grid grid-2">
+  <div class="card">
+    <h1>Dashboard</h1>
 
+    <div class="kpi">
+      <div class="box">
+        <div class="label">Gesamtzeit</div>
+        <div class="big">{{ total_all }}</div>
+        <div class="muted">Minuten</div>
+      </div>
+      <div class="box">
+        <div class="label">Druckbericht</div>
+        <a class="btn btn-link" href="{% url 'print_report' %}" target="_blank">🖨️ DIN A4 öffnen</a>
+      </div>
+    </div>
 
-<div class="no-print" style="margin-bottom:16px;">
-  {% if role == "USER" %}
-    <form method="post" action="{% url 'request_vip' %}">
-      {% csrf_token %}
-      <button type="submit">VIP beantragen</button>
-    </form>
-  {% elif role == "VIP" %}
-    <form method="post" action="{% url 'request_admin' %}">
-      {% csrf_token %}
-      <button type="submit">Administrator beantragen</button>
-    </form>
-  {% elif role == "ADMIN" %}
-    <p>
-      <a href="{% url 'admin_requests' %}">Admin: Anträge</a> |
-      <a href="{% url 'admin_users' %}">Admin: Benutzer</a>
-    </p>
-  {% endif %}
+    <hr class="sep">
+
+    {% if total_all == 0 %}
+      <p class="muted">Noch keine Berichte vorhanden.</p>
+    {% else %}
+      <table class="table">
+        <tr>
+          <th>Modul</th>
+          <th>Minuten</th>
+          <th>Anteil (%)</th>
+        </tr>
+        {% for r in rows %}
+          <tr>
+            <td>{{ r.module }}</td>
+            <td>{{ r.minutes }}</td>
+            <td>{{ r.percent }}</td>
+          </tr>
+        {% endfor %}
+      </table>
+    {% endif %}
+  </div>
+
+  <div class="card">
+    <h2>Aktionen</h2>
+
+    {% if role == "USER" %}
+      <form method="post" action="{% url 'request_vip' %}">
+        {% csrf_token %}
+        <button class="btn btn-primary" type="submit">VIP beantragen</button>
+      </form>
+      <p class="muted" style="margin-top:10px;">VIP erlaubt Export/Import (JSON/CSV/XML).</p>
+
+    {% elif role == "VIP" %}
+      <form method="post" action="{% url 'request_admin' %}">
+        {% csrf_token %}
+        <button class="btn btn-primary" type="submit">Administrator beantragen</button>
+      </form>
+
+      <hr class="sep">
+      <h3>VIP</h3>
+      <p class="muted">Export:</p>
+      <div class="actions">
+        <a class="btn btn-link" href="{% url 'vip_export' %}?format=json">JSON</a>
+        <a class="btn btn-link" href="{% url 'vip_export' %}?format=csv">CSV</a>
+        <a class="btn btn-link" href="{% url 'vip_export' %}?format=xml">XML</a>
+      </div>
+
+      <div style="height:10px;"></div>
+      <form method="post" action="{% url 'vip_import' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-row">
+          <label>Import (überschreibt alle Reports)</label>
+          <select name="format">
+            <option value="json">JSON</option>
+            <option value="csv">CSV</option>
+            <option value="xml">XML</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <input type="file" name="file" required>
+        </div>
+        <button class="btn btn-danger" type="submit">Importieren</button>
+      </form>
+
+    {% elif role == "ADMIN" %}
+      <div class="actions">
+        <a class="btn btn-link" href="{% url 'admin_requests' %}">Admin: Anträge</a>
+        <a class="btn btn-link" href="{% url 'admin_users' %}">Admin: Benutzer</a>
+      </div>
+
+      <hr class="sep">
+      <h3>VIP</h3>
+      <div class="actions">
+        <a class="btn btn-link" href="{% url 'vip_export' %}?format=json">JSON</a>
+        <a class="btn btn-link" href="{% url 'vip_export' %}?format=csv">CSV</a>
+        <a class="btn btn-link" href="{% url 'vip_export' %}?format=xml">XML</a>
+      </div>
+
+      <div style="height:10px;"></div>
+      <form method="post" action="{% url 'vip_import' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-row">
+          <label>Import (überschreibt alle Reports)</label>
+          <select name="format">
+            <option value="json">JSON</option>
+            <option value="csv">CSV</option>
+            <option value="xml">XML</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <input type="file" name="file" required>
+        </div>
+        <button class="btn btn-danger" type="submit">Importieren</button>
+      </form>
+    {% endif %}
+  </div>
 </div>
 
-{% if role == "VIP" or role == "ADMIN" %}
-  <hr>
-  <h3>VIP-Funktionen</h3>
-
-  <p>
-    Export:
-    <a href="{% url 'vip_export' %}?format=json">JSON</a> |
-    <a href="{% url 'vip_export' %}?format=csv">CSV</a> |
-    <a href="{% url 'vip_export' %}?format=xml">XML</a>
-  </p>
-
-  <form method="post" action="{% url 'vip_import' %}" enctype="multipart/form-data">
-    {% csrf_token %}
-    <label>Import (überschreibt alle Reports):</label><br>
-    <select name="format">
-      <option value="json">JSON</option>
-      <option value="csv">CSV</option>
-      <option value="xml">XML</option>
-    </select>
-    <input type="file" name="file" required>
-    <button type="submit">Importieren</button>
-  </form>
-{% endif %}
-
-<a href="{% url 'print_report' %}" target="_blank">🖨️ Druckansicht (DIN A4)</a>
-
-
-<p>Gesamtzeit: <b>{{ total_all }}</b> Minuten</p>
-
-{% if total_all == 0 %}
-  <p>Noch keine Berichte vorhanden.</p>
-{% else %}
-  <table border="1" cellpadding="6">
-    <tr>
-      <th>Modul</th>
-      <th>Minuten</th>
-      <th>Anteil (%)</th>
-    </tr>
-    {% for r in rows %}
-      <tr>
-        <td>{{ r.module }}</td>
-        <td>{{ r.minutes }}</td>
-        <td>{{ r.percent }}</td>
-      </tr>
-    {% endfor %}
-  </table>
-{% endif %}
 {% endblock %}

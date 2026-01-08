@@ -1,14 +1,26 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Login</h1>
-<form method="post">
-  {% csrf_token %}
-  <label>Benutzername</label><br>
-  <input name="username"><br><br>
+<div class="card" style="max-width:520px; margin: 0 auto;">
+  <h1>Login</h1>
+  <p class="muted">Bitte melde dich an, um Arbeitsberichte zu erfassen.</p>
 
-  <label>Passwort</label><br>
-  <input name="password" type="password"><br><br>
+  <form method="post">
+    {% csrf_token %}
 
-  <button type="submit">Einloggen</button>
-</form>
+    <div class="form-row">
+      <label>Benutzername</label>
+      <input name="username" autocomplete="username">
+    </div>
+
+    <div class="form-row">
+      <label>Passwort</label>
+      <input name="password" type="password" autocomplete="current-password">
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" type="submit">Einloggen</button>
+      <a class="btn btn-link" href="{% url 'register' %}">Account erstellen</a>
+    </div>
+  </form>
+</div>
 {% endblock %}

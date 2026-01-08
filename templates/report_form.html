@@ -36,8 +36,9 @@
          value="{% if report %}{{ report.text }}{% endif %}">
   <br><br>
 
-  <button type="submit">Speichern</button>
-  <a href="{% url 'reports_list' %}">Abbrechen</a>
+  <button class="btn btn-primary" type="submit">Speichern</button>
+  <a class="btn btn-link" href="{% url 'reports_list' %}">Abbrechen</a>
+
 </form>
 
 {% endblock %}
