@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Druckbericht</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'print.css' %}">
+</head>
+<body>
+  <div class="page">
+    <div class="no-print" style="margin-bottom: 12px;">
+      <button onclick="window.print()">Jetzt drucken</button>
+      <a href="{% url 'dashboard' %}" style="margin-left: 10px;">Zurück</a>
+    </div>
+
+    <h1>Zeitübersicht (DIN A4)</h1>
+    <p><b>Anwender:</b> {{ username }}</p>
+    <p><b>Gesamtzeit:</b> {{ total_all }} Minuten</p>
+
+    {% if total_all == 0 %}
+      <p>Keine Daten vorhanden.</p>
+    {% else %}
+      <table>
+        <tr>
+          <th>Modul</th>
+          <th>Minuten</th>
+          <th>Anteil (%)</th>
+        </tr>
+        {% for r in rows %}
+          <tr>
+            <td>{{ r.module }}</td>
+            <td>{{ r.minutes }}</td>
+            <td>{{ r.percent }}</td>
+          </tr>
+        {% endfor %}
+      </table>
+    {% endif %}
+
+    <p class="footer">Erstellt am: <span id="date"></span></p>
+  </div>
+
+  <script>
+    // kleines Extra: Druckdatum automatisch füllen
+    document.getElementById("date").textContent = new Date().toLocaleDateString("de-DE");
+  </script>
+</body>
+</html>

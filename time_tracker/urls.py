@@ -20,5 +20,7 @@ urlpatterns = [
 
     path("vip/export/", views.vip_export, name="vip_export"),
     path("vip/import/", views.vip_import, name="vip_import"),
+
+    path("print/", views.print_report, name="print_report"),
 ]
 

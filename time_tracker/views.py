@@ -379,3 +379,30 @@ def vip_import(request):
         return redirect("dashboard")
 
     return redirect("dashboard")
+
+@login_required
+def print_report(request):
+    # gleiche Daten wie Dashboard: Minuten je Modul + Prozent
+    qs = (
+        Report.objects.filter(user=request.user)
+        .values("module__name")
+        .annotate(total_minutes=Sum("minutes"))
+        .order_by("module__name")
+    )
+    total_all = sum(item["total_minutes"] or 0 for item in qs) or 0
+
+    rows = []
+    for item in qs:
+        minutes = item["total_minutes"] or 0
+        percent = round((minutes / total_all) * 100, 1) if total_all > 0 else 0.0
+        rows.append({"module": item["module__name"], "minutes": minutes, "percent": percent})
+
+    return render(
+        request,
+        "print_report.html",
+        {
+            "rows": rows,
+            "total_all": total_all,
+            "username": request.user.username,
+        },
+    )
