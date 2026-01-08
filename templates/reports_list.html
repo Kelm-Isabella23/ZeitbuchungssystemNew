@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Meine Arbeitsberichte</h1>
+
+<p class="no-print">
+  <a href="{% url 'report_new' %}">+ Neuer Bericht</a>
+</p>
+
+{% if reports|length == 0 %}
+  <p>Noch keine Berichte vorhanden.</p>
+{% else %}
+  <table border="1" cellpadding="6">
+    <tr>
+      <th>Datum</th>
+      <th>Modul</th>
+      <th>Minuten</th>
+      <th>Bericht</th>
+      <th class="no-print">Aktionen</th>
+    </tr>
+    {% for r in reports %}
+      <tr>
+        <td>{{ r.date }}</td>
+        <td>{{ r.module.name }}</td>
+        <td>{{ r.minutes }}</td>
+        <td>{{ r.text }}</td>
+        <td class="no-print">
+          <a href="{% url 'report_edit' r.id %}">Bearbeiten</a>
+          <form method="post" action="{% url 'report_delete' r.id %}" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" onclick="return confirm('Wirklich löschen?')">Löschen</button>
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+{% endif %}
+
+{% endblock %}

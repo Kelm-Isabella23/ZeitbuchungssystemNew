@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+{% if mode == "new" %}
+  <h1>Neuer Bericht</h1>
+{% else %}
+  <h1>Bericht bearbeiten</h1>
+{% endif %}
+
+<form method="post">
+  {% csrf_token %}
+
+  <label>Datum</label><br>
+  <input type="date" name="date"
+         value="{% if report %}{{ report.date|date:'Y-m-d' }}{% else %}{{ today }}{% endif %}">
+  <br><br>
+
+  <label>Minuten</label><br>
+  <input name="minutes" type="number" min="1"
+         value="{% if report %}{{ report.minutes }}{% endif %}">
+  <br><br>
+
+  <label>Modul</label><br>
+  <select name="module_id">
+    <option value="">Bitte wählen...</option>
+    {% for m in modules %}
+      <option value="{{ m.id }}"
+        {% if report and report.module.id == m.id %}selected{% endif %}>
+        {{ m.name }}
+      </option>
+    {% endfor %}
+  </select>
+  <br><br>
+
+  <label>Kurzbericht</label><br>
+  <input name="text" maxlength="300" style="width: 420px;"
+         value="{% if report %}{{ report.text }}{% endif %}">
+  <br><br>
+
+  <button type="submit">Speichern</button>
+  <a href="{% url 'reports_list' %}">Abbrechen</a>
+</form>
+
+{% endblock %}
