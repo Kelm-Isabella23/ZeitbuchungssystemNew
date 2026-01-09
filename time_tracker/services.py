@@ -67,7 +67,7 @@ def import_reports_overwrite(user, fmt: str, content: str):
     else:
         raise ValueError("Unbekanntes Format")
 
-    # 🔥 Überschreiben = löschen + neu anlegen
+    #Überschreiben = löschen + neu anlegen
     Report.objects.filter(user=user).delete()
 
     for r in rows:
@@ -79,3 +79,24 @@ def import_reports_overwrite(user, fmt: str, content: str):
             module=module,
             text=r["text"][:300],
         )
+
+from django.db.models import Sum
+from .models import Report
+
+def get_module_stats(user):
+    qs = (
+        Report.objects.filter(user=user)
+        .values("module__name")
+        .annotate(total_minutes=Sum("minutes"))
+        .order_by("module__name")
+    )
+
+    total_all = sum(item["total_minutes"] or 0 for item in qs) or 0
+
+    rows = []
+    for item in qs:
+        minutes = item["total_minutes"] or 0
+        percent = round((minutes / total_all) * 100, 1) if total_all else 0.0
+        rows.append({"module": item["module__name"], "minutes": minutes, "percent": percent})
+
+    return rows, total_all
