@@ -8,8 +8,6 @@ from django.shortcuts import redirect, render
 from .models import Report
 
 
-# RELOAD TEST 123
-
 
 def home(request):
     # Startseite: direkt ins Dashboard (oder Login, wenn nicht eingeloggt)
