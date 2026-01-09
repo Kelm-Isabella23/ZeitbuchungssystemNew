@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
+
 <div class="grid grid-2">
   <div class="card">
-    <h1>Dashboard</h1>
+    <h1>Meine Übersicht</h1>
 
     <div class="kpi">
       <div class="box">
@@ -10,6 +11,7 @@
         <div class="big">{{ total_all }}</div>
         <div class="muted">Minuten</div>
       </div>
+
       <div class="box">
         <div class="label">Druckbericht</div>
         <a class="btn btn-link" href="{% url 'print_report' %}" target="_blank">🖨️ DIN A4 öffnen</a>
@@ -41,29 +43,26 @@
   <div class="card">
     <h2>Aktionen</h2>
 
-    {% if role == "USER" %}
+    {% if user.profile.role == "USER" %}
       <form method="post" action="{% url 'request_vip' %}">
         {% csrf_token %}
         <button class="btn btn-primary" type="submit">VIP beantragen</button>
       </form>
       <p class="muted" style="margin-top:10px;">VIP erlaubt Export/Import (JSON/CSV/XML).</p>
 
-    {% elif role == "VIP" %}
+    {% elif user.profile.role == "VIP" %}
       <form method="post" action="{% url 'request_admin' %}">
         {% csrf_token %}
         <button class="btn btn-primary" type="submit">Administrator beantragen</button>
       </form>
 
       <hr class="sep">
-      <h3>VIP</h3>
-      <p class="muted">Export:</p>
-      <div class="actions">
-        <a class="btn btn-link" href="{% url 'vip_export' %}?format=json">JSON</a>
-        <a class="btn btn-link" href="{% url 'vip_export' %}?format=csv">CSV</a>
-        <a class="btn btn-link" href="{% url 'vip_export' %}?format=xml">XML</a>
-      </div>
+      <h3>VIP-Funktionen</h3>
 
-      <div style="height:10px;"></div>
+      <p class="muted">Export:</p>
+      {% include "includes/vip_export_links.html" %}
+
+      <hr class="sep">
       <form method="post" action="{% url 'vip_import' %}" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="form-row">
@@ -74,27 +73,27 @@
             <option value="xml">XML</option>
           </select>
         </div>
+
         <div class="form-row">
           <input type="file" name="file" required>
         </div>
+
         <button class="btn btn-danger" type="submit">Importieren</button>
       </form>
 
-    {% elif role == "ADMIN" %}
+    {% elif user.profile.role == "ADMIN" %}
       <div class="actions">
         <a class="btn btn-link" href="{% url 'admin_requests' %}">Admin: Anträge</a>
         <a class="btn btn-link" href="{% url 'admin_users' %}">Admin: Benutzer</a>
       </div>
 
       <hr class="sep">
-      <h3>VIP</h3>
-      <div class="actions">
-        <a class="btn btn-link" href="{% url 'vip_export' %}?format=json">JSON</a>
-        <a class="btn btn-link" href="{% url 'vip_export' %}?format=csv">CSV</a>
-        <a class="btn btn-link" href="{% url 'vip_export' %}?format=xml">XML</a>
-      </div>
+      <h3>VIP-Funktionen</h3>
 
-      <div style="height:10px;"></div>
+      <p class="muted">Export:</p>
+      {% include "includes/vip_export_links.html" %}
+
+      <hr class="sep">
       <form method="post" action="{% url 'vip_import' %}" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="form-row">
@@ -105,9 +104,11 @@
             <option value="xml">XML</option>
           </select>
         </div>
+
         <div class="form-row">
           <input type="file" name="file" required>
         </div>
+
         <button class="btn btn-danger" type="submit">Importieren</button>
       </form>
     {% endif %}

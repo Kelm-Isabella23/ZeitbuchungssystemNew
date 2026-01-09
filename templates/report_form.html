@@ -1,47 +1,47 @@
 {% extends "base.html" %}
 {% block content %}
 
-{% if mode == "new" %}
-  <h1>Neuer Bericht</h1>
-{% else %}
-  <h1>Bericht bearbeiten</h1>
-{% endif %}
+<div class="card" style="max-width:720px; margin: 0 auto;">
+  {% if mode == "new" %}
+    <h1>Neuer Bericht</h1>
+  {% else %}
+    <h1>Bericht bearbeiten</h1>
+  {% endif %}
 
-<form method="post">
-  {% csrf_token %}
+  <form method="post">
+    {% csrf_token %}
 
-  {{ form.non_field_errors }}
+    {{ form.non_field_errors }}
 
-  <div>
-    {{ form.date.label_tag }}<br>
-    {{ form.date }}
-    {{ form.date.errors }}
-  </div>
-  <br>
+    <div class="form-row">
+      {{ form.date.label_tag }}
+      {{ form.date }}
+      {{ form.date.errors }}
+    </div>
 
-  <div>
-    {{ form.minutes.label_tag }}<br>
-    {{ form.minutes }}
-    {{ form.minutes.errors }}
-  </div>
-  <br>
+    <div class="form-row">
+      {{ form.minutes.label_tag }}
+      {{ form.minutes }}
+      {{ form.minutes.errors }}
+    </div>
 
-  <div>
-    {{ form.module.label_tag }}<br>
-    {{ form.module }}
-    {{ form.module.errors }}
-  </div>
-  <br>
+    <div class="form-row">
+      {{ form.module.label_tag }}
+      {{ form.module }}
+      {{ form.module.errors }}
+    </div>
 
-  <div>
-    {{ form.text.label_tag }}<br>
-    {{ form.text }}
-    {{ form.text.errors }}
-  </div>
-  <br>
+    <div class="form-row">
+      {{ form.text.label_tag }}
+      {{ form.text }}
+      {{ form.text.errors }}
+    </div>
 
-  <button class="btn btn-primary" type="submit">Speichern</button>
-  <a class="btn btn-link" href="{% url 'reports_list' %}">Abbrechen</a>
-</form>
+    <div class="actions">
+      <button class="btn btn-primary" type="submit">Speichern</button>
+      <a class="btn btn-link" href="{% url 'reports_list' %}">Abbrechen</a>
+    </div>
+  </form>
+</div>
 
 {% endblock %}

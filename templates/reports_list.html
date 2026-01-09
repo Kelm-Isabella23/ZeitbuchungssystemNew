@@ -1,37 +1,47 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Meine Arbeitsberichte</h1>
 
-{% if reports|length == 0 %}
-  <p>Noch keine Berichte vorhanden.</p>
-{% else %}
-  <div class="actions no-print">
+<div class="card">
+  <h1>Meine Arbeitsberichte</h1>
+
+  <div class="actions no-print" style="margin-top:12px;">
     <a class="btn btn-primary" href="{% url 'report_new' %}">+ Neuer Bericht</a>
   </div>
-  <table class="table">
-    <tr>
-      <th>Datum</th>
-      <th>Modul</th>
-      <th>Minuten</th>
-      <th>Bericht</th>
-      <th class="no-print">Aktionen</th>
-    </tr>
-    {% for r in reports %}
+
+  {% if reports|length == 0 %}
+    <p class="muted" style="margin-top:12px;">Noch keine Berichte vorhanden.</p>
+  {% else %}
+    <table class="table" style="margin-top:12px;">
       <tr>
-        <td>{{ r.date }}</td>
-        <td>{{ r.module.name }}</td>
-        <td>{{ r.minutes }}</td>
-        <td>{{ r.text }}</td>
-        <td class="no-print">
-          <a href="{% url 'report_edit' r.id %}">Bearbeiten</a>
-          <form method="post" action="{% url 'report_delete' r.id %}" style="display:inline;">
-            {% csrf_token %}
-            <button type="submit" onclick="return confirm('Wirklich löschen?')">Löschen</button>
-          </form>
-        </td>
+        <th>Datum</th>
+        <th>Modul</th>
+        <th>Minuten</th>
+        <th>Bericht</th>
+        <th class="no-print">Aktionen</th>
       </tr>
-    {% endfor %}
-  </table>
-{% endif %}
+
+      {% for r in reports %}
+        <tr>
+          <td>{{ r.date }}</td>
+          <td>{{ r.module.name }}</td>
+          <td>{{ r.minutes }}</td>
+          <td>{{ r.text }}</td>
+          <td class="no-print">
+            <div class="actions">
+              <a class="btn btn-link" href="{% url 'report_edit' r.id %}">Bearbeiten</a>
+
+              <form method="post" action="{% url 'report_delete' r.id %}" style="display:inline;">
+                {% csrf_token %}
+                <button class="btn btn-danger" type="submit" onclick="return confirm('Wirklich löschen?')">
+                  Löschen
+                </button>
+              </form>
+            </div>
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% endif %}
+</div>
 
 {% endblock %}

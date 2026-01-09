@@ -1,33 +1,41 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Admin: Benutzer</h1>
 
-<table border="1" cellpadding="6">
-  <tr>
-    <th>Username</th>
-    <th>Rolle</th>
-    <th>Gesperrt</th>
-    <th class="no-print">Aktion</th>
-  </tr>
-  {% for u in users %}
+<div class="card">
+  <h1>Admin: Benutzer</h1>
+
+  <table class="table">
     <tr>
-      <td>{{ u.username }}</td>
-      <td>{{ u.profile.role }}</td>
-      <td>{{ u.profile.is_blocked }}</td>
-      <td class="no-print">
-        <form method="post" style="display:inline;">
-          {% csrf_token %}
-          <input type="hidden" name="user_id" value="{{ u.id }}">
-          {% if u.profile.is_blocked %}
-            <button name="action" value="unblock">Entsperren</button>
-          {% else %}
-            <button name="action" value="block">Sperren</button>
-          {% endif %}
-        </form>
-      </td>
+      <th>Username</th>
+      <th>Rolle</th>
+      <th>Gesperrt</th>
+      <th class="no-print">Aktion</th>
     </tr>
-  {% endfor %}
-</table>
 
-<p class="no-print"><a href="{% url 'dashboard' %}">Zurück</a></p>
+    {% for u in users %}
+      <tr>
+        <td>{{ u.username }}</td>
+        <td>{{ u.profile.role }}</td>
+        <td>{{ u.profile.is_blocked }}</td>
+        <td class="no-print">
+          <form method="post" style="display:inline;">
+            {% csrf_token %}
+            <input type="hidden" name="user_id" value="{{ u.id }}">
+
+            {% if u.profile.is_blocked %}
+              <button class="btn btn-primary" name="action" value="unblock">Entsperren</button>
+            {% else %}
+              <button class="btn btn-danger" name="action" value="block">Sperren</button>
+            {% endif %}
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+
+  <div class="no-print" style="margin-top:16px;">
+    <a class="btn btn-link" href="{% url 'dashboard' %}">← Zurück</a>
+  </div>
+</div>
+
 {% endblock %}

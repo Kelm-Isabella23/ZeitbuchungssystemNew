@@ -1,32 +1,42 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Admin: Offene Anträge</h1>
 
-{% if pending|length == 0 %}
-  <p>Keine offenen Anträge.</p>
-{% else %}
-  <table border="1" cellpadding="6">
-    <tr>
-      <th>User</th>
-      <th>Beantragt</th>
-      <th>Aktion</th>
-    </tr>
-    {% for r in pending %}
+<div class="card">
+  <h1>Admin: Offene Anträge</h1>
+
+  {% if pending|length == 0 %}
+    <p class="muted">Keine offenen Anträge.</p>
+  {% else %}
+    <table class="table">
       <tr>
-        <td>{{ r.user.username }}</td>
-        <td>{{ r.requested_role }}</td>
-        <td>
-          <form method="post" style="display:inline;">
-            {% csrf_token %}
-            <input type="hidden" name="req_id" value="{{ r.id }}">
-            <button name="action" value="approve">Genehmigen</button>
-            <button name="action" value="reject">Ablehnen</button>
-          </form>
-        </td>
+        <th>User</th>
+        <th>Beantragt</th>
+        <th class="no-print">Aktion</th>
       </tr>
-    {% endfor %}
-  </table>
-{% endif %}
 
-<p class="no-print"><a href="{% url 'dashboard' %}">Zurück</a></p>
+      {% for r in pending %}
+        <tr>
+          <td>{{ r.user.username }}</td>
+          <td>{{ r.requested_role }}</td>
+          <td class="no-print">
+            <form method="post" style="display:inline;">
+              {% csrf_token %}
+              <input type="hidden" name="req_id" value="{{ r.id }}">
+
+              <div class="actions">
+                <button class="btn btn-primary" name="action" value="approve">Genehmigen</button>
+                <button class="btn btn-danger" name="action" value="reject">Ablehnen</button>
+              </div>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% endif %}
+
+  <div class="no-print" style="margin-top:16px;">
+    <a class="btn btn-link" href="{% url 'dashboard' %}">← Zurück</a>
+  </div>
+</div>
+
 {% endblock %}
