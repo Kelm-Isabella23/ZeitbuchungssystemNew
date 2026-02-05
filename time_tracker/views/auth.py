@@ -5,7 +5,6 @@ from django.shortcuts import redirect, render
 
 
 def home(request):
-    # Startseite: direkt ins Dashboard (oder Login, wenn nicht eingeloggt)
     if request.user.is_authenticated:
         return redirect("dashboard")
     return redirect("login")
@@ -25,7 +24,6 @@ def register_view(request):
             return redirect("register")
 
         user = User.objects.create_user(username=username, password=password)
-        # Profile wird automatisch via Signal erstellt ✅
         login(request, user)
         return redirect("dashboard")
 
@@ -42,7 +40,6 @@ def login_view(request):
             messages.error(request, "Login fehlgeschlagen. Benutzername/Passwort prüfen.")
             return redirect("login")
 
-        # Block-Check
         if hasattr(user, "profile") and user.profile.is_blocked:
             messages.error(request, "Dein Account ist gesperrt.")
             return redirect("login")

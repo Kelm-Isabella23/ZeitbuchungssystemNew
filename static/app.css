@@ -1,6 +1,4 @@
-/* =========================
-   RESET / BASIS
-========================= */
+/* Basis: */
 * {
   box-sizing: border-box;
 }
@@ -25,9 +23,8 @@ a:hover {
   color: #6b7280;
 }
 
-/* =========================
-   LAYOUT
-========================= */
+
+/* Layout: */
 .container {
   max-width: 1100px;
   margin: 0 auto;
@@ -50,9 +47,8 @@ a:hover {
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
 }
 
-/* =========================
-   NAVBAR
-========================= */
+
+/* Navigation: */
 .topbar {
   background: #0f172a;
   color: #fff;
@@ -98,9 +94,8 @@ a:hover {
   font-size: 12px;
 }
 
-/* =========================
-   BUTTONS
-========================= */
+
+/* Buttons: */
 .btn {
   padding: 8px 14px;
   border-radius: 6px;
@@ -130,9 +125,8 @@ a:hover {
   cursor: not-allowed;
 }
 
-/* =========================
-   FORMS
-========================= */
+
+/* Forms: */
 .form-row {
   margin-bottom: 14px;
 }
@@ -158,9 +152,8 @@ select {
   flex-wrap: wrap;
 }
 
-/* =========================
-   TABLES
-========================= */
+
+/* Tabelle: */
 .table {
   width: 100%;
   border-collapse: collapse;
@@ -178,9 +171,8 @@ select {
   background: #f1f5f9;
 }
 
-/* =========================
-   MESSAGES
-========================= */
+
+/* Nachrichten: */
 .msgs {
   list-style: none;
   padding: 0;
@@ -194,9 +186,8 @@ select {
   margin-bottom: 6px;
 }
 
-/* =========================
-   UTILS
-========================= */
+
+/* Print: */
 .no-print {
   display: block;
 }

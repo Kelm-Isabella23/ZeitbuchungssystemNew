@@ -9,11 +9,9 @@ from time_tracker.models import RoleRequest
 
 @login_required
 def request_vip(request):
-    # nur USER darf VIP beantragen
     if request.user.profile.role != "USER":
         return redirect("dashboard")
 
-    # bereits offen?
     if RoleRequest.objects.filter(
         user=request.user, requested_role="VIP", status="PENDING"
     ).exists():
@@ -27,7 +25,6 @@ def request_vip(request):
 
 @login_required
 def request_admin(request):
-    # nur VIP darf ADMIN beantragen
     if request.user.profile.role != "VIP":
         return redirect("dashboard")
 
@@ -52,7 +49,7 @@ def admin_requests(request):
 
     if request.method == "POST":
         req_id = request.POST.get("req_id")
-        action = request.POST.get("action")  # approve / reject
+        action = request.POST.get("action")
 
         rr = RoleRequest.objects.filter(id=req_id, status="PENDING").select_related("user").first()
         if rr is None:
@@ -90,7 +87,7 @@ def admin_users(request):
 
     if request.method == "POST":
         user_id = request.POST.get("user_id")
-        action = request.POST.get("action")  # block / unblock
+        action = request.POST.get("action") 
 
         u = User.objects.filter(id=user_id).first()
         if u is None:

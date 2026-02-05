@@ -6,5 +6,4 @@ class TimeTrackerConfig(AppConfig):
     name = "time_tracker"
 
     def ready(self):
-        # ensures signals are registered
-        import time_tracker.signals  # noqa: F401
+        import time_tracker.signals 

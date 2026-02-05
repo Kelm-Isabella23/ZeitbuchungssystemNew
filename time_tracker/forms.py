@@ -15,13 +15,11 @@ class ReportForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        # Nur aktive Module auswählbar (und beim Edit das bereits gewählte Modul zulassen)
         active = Module.objects.filter(is_active=True).order_by("name")
         if self.instance and self.instance.pk and self.instance.module_id:
             active = active | Module.objects.filter(pk=self.instance.module_id)
         self.fields["module"].queryset = active.distinct()
 
-        # Optional: kleine Labels (Template bleibt clean)
         self.fields["date"].label = "Datum"
         self.fields["minutes"].label = "Minuten"
         self.fields["module"].label = "Modul"

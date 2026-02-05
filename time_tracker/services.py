@@ -67,7 +67,6 @@ def import_reports_overwrite(user, fmt: str, content: str):
     else:
         raise ValueError("Unbekanntes Format")
 
-    #Überschreiben = löschen + neu anlegen
     Report.objects.filter(user=user).delete()
 
     for r in rows:
