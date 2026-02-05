@@ -1,23 +1,39 @@
+/* Grundlayout für die Druckseite */
 .page {
+  /* Serifenlose Schrift für gute Lesbarkeit im Druck */
   font-family: Arial, sans-serif;
 }
 
+/* Überschrift auf der Druckseite */
 .page h1 {
+  /* Entfernt unnötigen Abstand am oberen Seitenrand */
   margin-top: 0;
 }
 
+/* Tabelle für die Zeitübersicht */
 .page table {
+  /* Tabelle nutzt die gesamte Seitenbreite */
   width: 100%;
+
+  /* Verhindert doppelte Rahmenlinien */
   border-collapse: collapse;
+
+  /* Abstand zur Überschrift (druckfreundlich, mm-Einheit) */
   margin-top: 10mm;
 }
 
+/* Tabellenkopf- und Tabellenzellen */
 .page th,
 .page td {
+  /* Klare schwarze Rahmen für den Ausdruck */
   border: 1px solid #000;
+
+  /* Innenabstand für bessere Lesbarkeit */
   padding: 6px;
 }
 
+/* Container für Druck-/Navigationsbuttons */
 .print-actions {
+  /* Abstand nach unten, damit Buttons nicht an der Tabelle kleben */
   margin-bottom: 12px;
 }
