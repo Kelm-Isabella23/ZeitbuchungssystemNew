@@ -1,21 +1,34 @@
+# Stellt Datum-/Zeitfunktionen bereit
+# Wird genutzt, um im Formular standardmäßig das heutige Datum zu setzen
 from datetime import date
 
+# Nachrichtensystem für Feedback im Frontend
 from django.contrib import messages
+
+# Decorator: Zugriff nur für eingeloggte Nutzer
 from django.contrib.auth.decorators import login_required
+
+# Hilfsfunktionen für typische Django-Responses
 from django.shortcuts import get_object_or_404, redirect, render
 
-from time_tracker.models import Module, Report
-from time_tracker.forms import ReportForm
+# Importiert das Report-Modell (Kernobjekt dieser Views)
+from time_tracker.models import Report
 
+# Formular zur Erstellung und Bearbeitung von Reports
+from time_tracker.forms import ReportForm
 
 
 @login_required
 def reports_list(request):
+    """
+    Listet alle Zeitbuchungen (Reports) des eingeloggten Nutzers auf.
+    """
     reports = (
         Report.objects.filter(user=request.user)
         .select_related("module")
         .order_by("-date", "-created_at")
     )
+
     return render(
         request,
         "reports_list.html",
@@ -25,6 +38,9 @@ def reports_list(request):
 
 @login_required
 def report_new(request):
+    """
+    Erstellt eine neue Zeitbuchung.
+    """
     if request.method == "POST":
         form = ReportForm(request.POST)
         if form.is_valid():
@@ -39,7 +55,14 @@ def report_new(request):
 
     return render(
         request,
-        "report_form.html",
+        {
+            "template": "report_form.html",
+            "context": {
+                "form": form,
+                "mode": "new",
+                "role": request.user.profile.role,
+            },
+        }["template"],
         {
             "form": form,
             "mode": "new",
@@ -50,6 +73,9 @@ def report_new(request):
 
 @login_required
 def report_edit(request, report_id: int):
+    """
+    Bearbeitet eine bestehende Zeitbuchung des eingeloggten Nutzers.
+    """
     report = get_object_or_404(Report, id=report_id, user=request.user)
 
     if request.method == "POST":
@@ -75,6 +101,10 @@ def report_edit(request, report_id: int):
 
 @login_required
 def report_delete(request, report_id: int):
+    """
+    Löscht eine Zeitbuchung (nur per POST).
+    """
     if request.method == "POST":
         Report.objects.filter(id=report_id, user=request.user).delete()
+
     return redirect("reports_list")
