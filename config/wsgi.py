@@ -5,16 +5,11 @@ Stellt den Einstiegspunkt für klassische,
 synchrone Webserver (z. B. Gunicorn oder uWSGI) bereit.
 """
 
-# Zugriff auf Betriebssystem-Funktionen zum Setzen von Umgebungsvariablen
-import os
+import os  # Zugriff auf Betriebssystem-Funktionen zum Setzen von Umgebungsvariablen
 
-# Django-Funktion zum Erzeugen der WSGI-Anwendung
-# Bindet das Django-Projekt an einen WSGI-Server
-from django.core.wsgi import get_wsgi_application
+from django.core.wsgi import get_wsgi_application # Django-Funktion zum Erzeugen der WSGI-Anwendung/ Bindet das Django-Projekt an einen WSGI-Server
 
 
-# Legt fest, welche Settings-Datei Django verwenden soll
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')  # Legt fest, welche Settings-Datei Django verwenden soll (hier: config/settings.py)
 
-# Erstellt die WSGI-Anwendung, die vom Webserver geladen wird
-application = get_wsgi_application()
+application = get_wsgi_application() # Erstellt die WSGI-Anwendung, die vom Webserver geladen wird

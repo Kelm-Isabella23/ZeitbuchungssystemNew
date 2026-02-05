@@ -5,16 +5,10 @@ Stellt den Einstiegspunkt für ASGI-kompatible Server bereit
 (z. B. für asynchrone Anwendungen, WebSockets oder moderne Deployments).
 """
 
-# Zugriff auf Betriebssystem-Funktionen zum Setzen von Umgebungsvariablen
-import os
-
-# Django-Funktion zum Erzeugen der ASGI-Anwendung
-# Bindet das Django-Projekt an einen ASGI-Server
-from django.core.asgi import get_asgi_application
+import os  # Zugriff auf Betriebssystem-Funktionen zum Setzen von Umgebungsvariablen
+from django.core.asgi import get_asgi_application  # Django-Funktion zum Erzeugen der ASGI-Anwendung/ Bindet das Django-Projekt an einen ASGI-Server
 
 
-# Legt fest, welche Settings-Datei Django verwenden soll
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings') # Legt fest, welche Settings-Datei Django verwenden soll
 
-# Erstellt die ASGI-Anwendung, die vom Server geladen wird
-application = get_asgi_application()
+application = get_asgi_application()# Erstellt die ASGI-Anwendung, die vom Server geladen wird
