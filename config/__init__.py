@@ -1,0 +1,1 @@
+# Datei bleibt leer, sorgt dafür das der Ordner "config" als Modul von Python erkannt wird
