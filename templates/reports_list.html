@@ -1,16 +1,27 @@
+{# Erweitert das zentrale Basis-Layout #}
 {% extends "base.html" %}
+
+{# Hauptinhalt der Seite #}
 {% block content %}
 
 <div class="card">
   <h1>Meine Arbeitsberichte</h1>
 
+  {# Aktion zum Erstellen eines neuen Berichts (nicht drucken) #}
   <div class="actions no-print" style="margin-top:12px;">
-    <a class="btn btn-primary" href="{% url 'report_new' %}">+ Neuer Bericht</a>
+    <a class="btn btn-primary" href="{% url 'report_new' %}">
+      + Neuer Bericht
+    </a>
   </div>
 
+  {# Falls noch keine Berichte vorhanden sind #}
   {% if reports|length == 0 %}
-    <p class="muted" style="margin-top:12px;">Noch keine Berichte vorhanden.</p>
+    <p class="muted" style="margin-top:12px;">
+      Noch keine Berichte vorhanden.
+    </p>
   {% else %}
+
+    {# Tabelle mit allen Berichten des Benutzers #}
     <table class="table" style="margin-top:12px;">
       <tr>
         <th>Datum</th>
@@ -20,19 +31,32 @@
         <th class="no-print">Aktionen</th>
       </tr>
 
+      {# Iteriert über alle Reports (aus reports_list-View) #}
       {% for r in reports %}
         <tr>
           <td>{{ r.date }}</td>
+
+          {# Modulname aus dem verknüpften Modul-Objekt #}
           <td>{{ r.module.name }}</td>
+
           <td>{{ r.minutes }}</td>
           <td>{{ r.text }}</td>
+
+          {# Bearbeiten / Löschen (nicht drucken) #}
           <td class="no-print">
             <div class="actions">
-              <a class="btn btn-link" href="{% url 'report_edit' r.id %}">Bearbeiten</a>
+              <a class="btn btn-link" href="{% url 'report_edit' r.id %}">
+                Bearbeiten
+              </a>
 
-              <form method="post" action="{% url 'report_delete' r.id %}" style="display:inline;">
+              {# Löschen erfolgt bewusst per POST + CSRF + Bestätigung #}
+              <form method="post"
+                    action="{% url 'report_delete' r.id %}"
+                    style="display:inline;">
                 {% csrf_token %}
-                <button class="btn btn-danger" type="submit" onclick="return confirm('Wirklich löschen?')">
+                <button class="btn btn-danger"
+                        type="submit"
+                        onclick="return confirm('Wirklich löschen?')">
                   Löschen
                 </button>
               </form>
@@ -45,3 +69,4 @@
 </div>
 
 {% endblock %}
+

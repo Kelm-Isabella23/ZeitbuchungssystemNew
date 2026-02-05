@@ -1,12 +1,18 @@
+{# Erweitert das zentrale Basis-Layout #}
 {% extends "base.html" %}
+
+{# Hauptinhalt der Seite #}
 {% block content %}
 
 <div class="card">
   <h1>Admin: Offene Anträge</h1>
 
+  {# Falls keine offenen Rollen-Anträge vorhanden sind #}
   {% if pending|length == 0 %}
     <p class="muted">Keine offenen Anträge.</p>
   {% else %}
+
+    {# Tabelle mit offenen Anträgen #}
     <table class="table">
       <tr>
         <th>User</th>
@@ -14,18 +20,29 @@
         <th class="no-print">Aktion</th>
       </tr>
 
+      {# Iteriert über alle offenen Anträge #}
       {% for r in pending %}
         <tr>
           <td>{{ r.user.username }}</td>
           <td>{{ r.requested_role }}</td>
+
+          {# Aktionsspalte wird beim Drucken ausgeblendet #}
           <td class="no-print">
             <form method="post" style="display:inline;">
+              {# CSRF-Schutz für Admin-Aktion #}
               {% csrf_token %}
+
+              {# ID des Antrags zur Verarbeitung im Backend #}
               <input type="hidden" name="req_id" value="{{ r.id }}">
 
+              {# Genehmigen / Ablehnen #}
               <div class="actions">
-                <button class="btn btn-primary" name="action" value="approve">Genehmigen</button>
-                <button class="btn btn-danger" name="action" value="reject">Ablehnen</button>
+                <button class="btn btn-primary" name="action" value="approve">
+                  Genehmigen
+                </button>
+                <button class="btn btn-danger" name="action" value="reject">
+                  Ablehnen
+                </button>
               </div>
             </form>
           </td>
@@ -34,6 +51,7 @@
     </table>
   {% endif %}
 
+  {# Zurück-Navigation (nicht drucken) #}
   <div class="no-print" style="margin-top:16px;">
     <a class="btn btn-link" href="{% url 'dashboard' %}">← Zurück</a>
   </div>

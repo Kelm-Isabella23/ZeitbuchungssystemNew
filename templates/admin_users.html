@@ -1,9 +1,13 @@
+{# Erweitert das zentrale Basis-Layout #}
 {% extends "base.html" %}
+
+{# Hauptinhalt der Seite #}
 {% block content %}
 
 <div class="card">
   <h1>Admin: Benutzer</h1>
 
+  {# Tabelle zur Benutzerverwaltung #}
   <table class="table">
     <tr>
       <th>Username</th>
@@ -12,20 +16,35 @@
       <th class="no-print">Aktion</th>
     </tr>
 
+    {# Iteriert über alle Benutzer (inkl. Profile) #}
     {% for u in users %}
       <tr>
         <td>{{ u.username }}</td>
+
+        {# Rolle aus dem zugehörigen Profil #}
         <td>{{ u.profile.role }}</td>
+
+        {# Sperrstatus des Benutzers #}
         <td>{{ u.profile.is_blocked }}</td>
+
+        {# Aktionsspalte (nicht drucken) #}
         <td class="no-print">
           <form method="post" style="display:inline;">
+            {# CSRF-Schutz für Admin-Aktion #}
             {% csrf_token %}
+
+            {# Übergibt die Benutzer-ID an die View #}
             <input type="hidden" name="user_id" value="{{ u.id }}">
 
+            {# Je nach Status: Sperren oder Entsperren #}
             {% if u.profile.is_blocked %}
-              <button class="btn btn-primary" name="action" value="unblock">Entsperren</button>
+              <button class="btn btn-primary" name="action" value="unblock">
+                Entsperren
+              </button>
             {% else %}
-              <button class="btn btn-danger" name="action" value="block">Sperren</button>
+              <button class="btn btn-danger" name="action" value="block">
+                Sperren
+              </button>
             {% endif %}
           </form>
         </td>
@@ -33,6 +52,7 @@
     {% endfor %}
   </table>
 
+  {# Zurück-Navigation (nicht drucken) #}
   <div class="no-print" style="margin-top:16px;">
     <a class="btn btn-link" href="{% url 'dashboard' %}">← Zurück</a>
   </div>

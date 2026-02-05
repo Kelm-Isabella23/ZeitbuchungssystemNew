@@ -1,23 +1,39 @@
 <!doctype html>
 <html lang="de">
 <head>
+  <!-- Zeichensatz und Seitentitel für Druckansicht -->
   <meta charset="utf-8">
   <title>Druckbericht</title>
+
+  {# Lädt die Django-Funktion für statische Dateien #}
   {% load static %}
+
+  {# Standard-Styles der Anwendung (Buttons, Tabellen etc.) #}
   <link rel="stylesheet" href="{% static 'app.css' %}">
+
+  {# Zusätzliche Druck-spezifische Styles (nur beim Drucken aktiv) #}
   <link rel="stylesheet" href="{% static 'print.css' %}" media="print">
 </head>
 <body>
+
+  {# Druckseite (DIN-A4-optimiertes Layout) #}
   <div class="page">
+
+    {# Aktionen, die nicht mitgedruckt werden sollen #}
     <div class="no-print print-actions">
-      <button class="btn btn-primary" onclick="window.print()">Jetzt drucken</button>
+      <button class="btn btn-primary" onclick="window.print()">
+        Jetzt drucken
+      </button>
       <a class="btn btn-link" href="{% url 'dashboard' %}">← Zurück</a>
     </div>
 
     <h1>Zeitübersicht</h1>
+
+    {# Benutzer- und Gesamtdaten #}
     <p><b>Anwender:</b> {{ username }}</p>
     <p><b>Gesamtzeit:</b> {{ total_all }} Minuten</p>
 
+    {# Tabelle nur anzeigen, wenn Zeiten vorhanden sind #}
     {% if total_all > 0 %}
       <table class="table">
         <tr>
@@ -25,6 +41,8 @@
           <th>Minuten</th>
           <th>Anteil (%)</th>
         </tr>
+
+        {# Iteriert über Statistikdaten (rows aus View) #}
         {% for r in rows %}
           <tr>
             <td>{{ r.module }}</td>
@@ -37,5 +55,7 @@
       <p>Keine Daten vorhanden.</p>
     {% endif %}
   </div>
+
 </body>
 </html>
+

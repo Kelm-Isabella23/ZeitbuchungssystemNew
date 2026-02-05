@@ -1,6 +1,10 @@
+{# Prüft, ob Nachrichten aus dem Django-Messages-Framework vorhanden sind #}
+
 {% if messages %}
   <ul class="msgs">
+    {# Iteriert über alle Nachrichten (info, success, error, etc.) #}
     {% for m in messages %}
+      {# Gibt den Nachrichtentext aus #}
       <li>{{ m }}</li>
     {% endfor %}
   </ul>

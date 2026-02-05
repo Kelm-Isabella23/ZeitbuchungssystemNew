@@ -1,27 +1,40 @@
 <!doctype html>
 <html lang="de">
 <head>
+  <!-- Zeichensatz und Responsive-Grundlagen -->
   <meta charset="utf-8">
-  <title>Zeitbuchungssystem</title>
+  <title>Time Tracker</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  {# Lädt die Django-Funktion für statische Dateien (CSS, Bilder, JS) #}
   {% load static %}
+
+  {# Zentrales Stylesheet der Anwendung #}
   <link rel="stylesheet" href="{% static 'app.css' %}">
 </head>
 <body>
 
+{# Kopfbereich mit Navigation (wird nicht gedruckt) #}
 <header class="topbar no-print">
   <div class="nav">
+
+    {# Branding / Projektname #}
     <div class="brand">
-      <strong>Zeitbuchungssystem</strong>
+      <strong>Time Tracker</strong>
     </div>
 
+    {# Navigationslinks (abhängig vom Login-Status) #}
     <div class="navlinks">
       {% if user.is_authenticated %}
+        {# Navigation für eingeloggte Benutzer #}
         <a class="pill" href="{% url 'dashboard' %}">Dashboard</a>
         <a class="pill" href="{% url 'reports_list' %}">Berichte</a>
         <a class="pill" href="{% url 'logout' %}">Logout</a>
+
+        {# Anzeige der Benutzerrolle (USER / VIP / ADMIN) #}
         <span class="rolebadge">{{ user.profile.role }}</span>
       {% else %}
+        {# Navigation für nicht eingeloggte Benutzer #}
         <a class="pill" href="{% url 'login' %}">Login</a>
         <a class="pill" href="{% url 'register' %}">Registrieren</a>
       {% endif %}
@@ -29,8 +42,13 @@
   </div>
 </header>
 
+{# Hauptinhalt der Seite #}
 <main class="container">
+
+  {# Anzeige von Systemmeldungen (messages framework) #}
   {% include "includes/messages.html" %}
+
+  {# Platzhalter für seitenabhängige Inhalte #}
   {% block content %}{% endblock %}
 </main>
 

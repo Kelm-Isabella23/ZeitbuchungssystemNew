@@ -1,42 +1,56 @@
+{# Erweitert das zentrale Basis-Layout #}
 {% extends "base.html" %}
+
+{# Hauptinhalt der Seite #}
 {% block content %}
 
+{# Formular-Karte, zentriert und breiter als Login/Register #}
 <div class="card" style="max-width:720px; margin: 0 auto;">
+
+  {# Unterscheidung zwischen Neu-Anlage und Bearbeiten #}
   {% if mode == "new" %}
     <h1>Neuer Bericht</h1>
   {% else %}
     <h1>Bericht bearbeiten</h1>
   {% endif %}
 
+  {# Formular zur Erstellung/Bearbeitung eines Reports #}
   <form method="post">
+    {# CSRF-Schutz für das Formular #}
     {% csrf_token %}
 
+    {# Formularfehler, die keinem einzelnen Feld zugeordnet sind #}
     {{ form.non_field_errors }}
 
+    {# Datumsfeld #}
     <div class="form-row">
       {{ form.date.label_tag }}
       {{ form.date }}
       {{ form.date.errors }}
     </div>
 
+    {# Minutenfeld #}
     <div class="form-row">
       {{ form.minutes.label_tag }}
       {{ form.minutes }}
       {{ form.minutes.errors }}
     </div>
 
+    {# Modulauswahl (gefiltert in ReportForm.__init__) #}
     <div class="form-row">
       {{ form.module.label_tag }}
       {{ form.module }}
       {{ form.module.errors }}
     </div>
 
+    {# Kurzbericht / Beschreibung #}
     <div class="form-row">
       {{ form.text.label_tag }}
       {{ form.text }}
       {{ form.text.errors }}
     </div>
 
+    {# Formularaktionen #}
     <div class="actions">
       <button class="btn btn-primary" type="submit">Speichern</button>
       <a class="btn btn-link" href="{% url 'reports_list' %}">Abbrechen</a>
@@ -45,3 +59,4 @@
 </div>
 
 {% endblock %}
+
