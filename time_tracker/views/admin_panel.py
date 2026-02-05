@@ -1,30 +1,14 @@
-# Nachrichten-/Feedback-System für den Nutzer (Erfolg/Info/Fehler im UI)
-from django.contrib import messages
-
-# Decorator: zwingt Login für eine View (sonst Redirect zur Login-Seite)
-from django.contrib.auth.decorators import login_required
-
-# Standard-Django-User-Modell (wird hier zur Nutzerverwaltung im Admin-Panel genutzt)
-from django.contrib.auth.models import User
-
-# Hilfsfunktionen für typische Django-Responses:
-# redirect: Weiterleitung auf eine URL (per name=...)
-# render: Template + Context zu einer HTML-Response
-from django.shortcuts import redirect, render
-
-# Eigener Decorator für Rollenprüfung (ADMIN/VIP/USER)
-from time_tracker.decorators import require_role
-
-# Modell für Rollen-Anträge (VIP/Admin)
-from time_tracker.models import RoleRequest
+from django.contrib import messages  #Nachrichten-/Feedback-System für den Nutzer (Erfolg/Info/Fehler im UI)
+from django.contrib.auth.decorators import login_required # Decorator: zwingt Login für eine View (sonst Redirect zur Login-Seite)
+from django.contrib.auth.models import User # Standard-Django-User-Modell (wird hier zur Nutzerverwaltung im Admin-Panel genutzt)
+from django.shortcuts import redirect, render  # Hilfsfunktionen für Django-Responses - redirect: Weiterleitung auf eine URL (per name=...)/ render: Template + Context zu einer HTML-Response
+from time_tracker.decorators import require_role #Eigener Decorator für Rollenprüfung (ADMIN/VIP/USER)
+from time_tracker.models import RoleRequest #Modell für Rollen-Anträge 
 
 
 @login_required
 def request_vip(request):
-    """
-    Erstellt einen VIP-Antrag für normale USER.
-    Verhindert doppelte offene Anträge.
-    """
+
     # Nur normale User dürfen VIP beantragen
     if request.user.profile.role != "USER":
         return redirect("dashboard")
@@ -44,10 +28,7 @@ def request_vip(request):
 
 @login_required
 def request_admin(request):
-    """
-    Erstellt einen Admin-Antrag für VIPs.
-    Verhindert doppelte offene Anträge.
-    """
+    
     # Nur VIP darf Admin beantragen
     if request.user.profile.role != "VIP":
         return redirect("dashboard")
@@ -67,10 +48,7 @@ def request_admin(request):
 
 @require_role("ADMIN")
 def admin_requests(request):
-    """
-    Admin-Ansicht für offene Rollen-Anträge.
-    Ermöglicht Genehmigen oder Ablehnen von Anträgen.
-    """
+    
     # Lädt alle offenen Anträge, neueste zuerst
     pending = (
         RoleRequest.objects.filter(status="PENDING")
@@ -125,10 +103,7 @@ def admin_requests(request):
 
 @require_role("ADMIN")
 def admin_users(request):
-    """
-    Admin-Ansicht zur Benutzerverwaltung.
-    Ermöglicht das Sperren/Entsperren von Benutzern.
-    """
+  
     # Lädt alle User inkl. Profil (für role/is_blocked Anzeige)
     users = User.objects.all().select_related("profile").order_by("username")
 

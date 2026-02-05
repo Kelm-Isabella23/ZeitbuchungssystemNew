@@ -1,21 +1,9 @@
-# Stellt Datum-/Zeitfunktionen bereit
-# Wird genutzt, um im Formular standardmäßig das heutige Datum zu setzen
-from datetime import date
-
-# Nachrichtensystem für Feedback im Frontend
-from django.contrib import messages
-
-# Decorator: Zugriff nur für eingeloggte Nutzer
-from django.contrib.auth.decorators import login_required
-
-# Hilfsfunktionen für typische Django-Responses
-from django.shortcuts import get_object_or_404, redirect, render
-
-# Importiert das Report-Modell (Kernobjekt dieser Views)
-from time_tracker.models import Report
-
-# Formular zur Erstellung und Bearbeitung von Reports
-from time_tracker.forms import ReportForm
+from datetime import date  # Stellt Datum-/Zeitfunktionen bereit (Wird genutzt, um im Formular standardmäßig das heutige Datum zu setzen)
+from django.contrib import messages  #Nachrichtensystem für Feedback im Frontend
+from django.contrib.auth.decorators import login_required  #Decorator: Zugriff nur für eingeloggte Nutzer
+from django.shortcuts import get_object_or_404, redirect, render #Hilfsfunktionen für typische Django-Responses
+from time_tracker.models import Report  # Importiert das Report-Modell (Kernobjekt dieser Views)
+from time_tracker.forms import ReportForm #Formular zur Erstellung und Bearbeitung von Reports
 
 
 @login_required

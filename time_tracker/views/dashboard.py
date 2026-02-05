@@ -1,12 +1,6 @@
-# Decorator: Zugriff nur für eingeloggte Benutzer
-from django.contrib.auth.decorators import login_required
-
-# Rendert ein Template mit Kontextdaten
-from django.shortcuts import render
-
-# Service-Funktion zur Berechnung von Modul-Statistiken
-# Liefert Minuten je Modul + Gesamtminuten
-from time_tracker.services import get_module_stats
+from django.contrib.auth.decorators import login_required #Decorator: Zugriff nur für eingeloggte Benutzer
+from django.shortcuts import render  #Rendert ein Template mit Kontextdaten
+from time_tracker.services import get_module_stats # Service-Funktion zur Berechnung von Modul-Statistiken (Liefert Minuten je Modul + Gesamtminuten)
 
 
 @login_required

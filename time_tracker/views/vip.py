@@ -1,17 +1,8 @@
-# Nachrichtensystem für Benutzerfeedback (Erfolg / Fehler)
-from django.contrib import messages
-
-# HTTP-Response-Klasse zur Rückgabe von Dateien (Download)
-from django.http import HttpResponse
-
-# Weiterleitung auf andere Views per URL-Name
-from django.shortcuts import redirect
-
-# Eigener Decorator zur Rollenprüfung (nur VIP und ADMIN erlaubt)
-from time_tracker.decorators import require_role
-
-# Service-Funktionen für Import und Export von Reports
-from time_tracker.services import export_reports, import_reports_overwrite
+from django.contrib import messages #Nachrichtensystem für Benutzerfeedback (Erfolg/Fehler)
+from django.http import HttpResponse  #HTTP-Response-Klasse zur Rückgabe von Dateien (Download)
+from django.shortcuts import redirect  #Weiterleitung auf andere Views per URL-Name
+from time_tracker.decorators import require_role  #Eigener Decorator zur Rollenprüfung (nur VIP und ADMIN erlaubt)
+from time_tracker.services import export_reports, import_reports_overwrite  #Service-Funktionen für Import und Export von Reports
 
 
 @require_role("VIP", "ADMIN")
@@ -55,7 +46,6 @@ def vip_import(request):
         content = file.read().decode("utf-8")
 
         try:
-            # Importlogik über Service-Schicht ausführen
             import_reports_overwrite(request.user, fmt, content)
             messages.success(
                 request,

@@ -1,16 +1,8 @@
-# Initiale Migration der time_tracker-App
-# Erstellt die Datenbanktabellen basierend auf den Modellen
+# Initiale Migration der time_tracker-App: Erstellt die Datenbanktabellen basierend auf den Modellen
 
-# Enthält Löschstrategien (CASCADE, PROTECT, etc.) für ForeignKeys
-import django.db.models.deletion
-
-# Zugriff auf die Django-Settings (z. B. AUTH_USER_MODEL)
-from django.conf import settings
-
-# Django-Migrations-Framework:
-# migrations: Steuerung von Migrationen
-# models: Feldtypen für Datenbanktabellen
-from django.db import migrations, models
+import django.db.models.deletion #Enthält Löschstrategien (CASCADE, PROTECT, etc.) für ForeignKeys
+from django.conf import settings #Zugriff auf die Django-Settings
+from django.db import migrations, models  #Django-Migrations-Framework - migrations: Steuerung von Migrationen/ models: Feldtypen für Datenbanktabellen
 
 
 class Migration(migrations.Migration):
@@ -23,16 +15,14 @@ class Migration(migrations.Migration):
     # Kennzeichnet diese Migration als erste Migration der App
     initial = True
 
-    # Abhängigkeit vom User-Modell (auch bei Custom Usern korrekt)
+    # Abhängigkeit vom User-Modell
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     # Datenbankoperationen, die bei der Migration ausgeführt werden
     operations = [
-        # =========================
-        # Modul-Tabelle
-        # =========================
+        #Modul-Tabelle (enthält die verschiedenen Module, für die Zeit gebucht werden kann)
         migrations.CreateModel(
             name='Module',
             fields=[
@@ -50,9 +40,7 @@ class Migration(migrations.Migration):
             ],
         ),
 
-        # =========================
-        # Profil-Tabelle
-        # =========================
+        # Profil-Tabelle (1:1-Verknüpfung zum User, enthält Rolle und Blockierungsstatus)
         migrations.CreateModel(
             name='Profile',
             fields=[
@@ -69,7 +57,7 @@ class Migration(migrations.Migration):
                 )),
                 ('is_blocked', models.BooleanField(default=False)),
 
-                # Verknüpfung zum Django-User (1:1)
+                # Verknüpfung zum Django-User
                 ('user', models.OneToOneField(
                     on_delete=django.db.models.deletion.CASCADE,
                     to=settings.AUTH_USER_MODEL
@@ -77,9 +65,7 @@ class Migration(migrations.Migration):
             ],
         ),
 
-        # =========================
-        # Report-Tabelle (Zeitbuchungen)
-        # =========================
+        # Report-Tabelle (Zeitbuchungen) 
         migrations.CreateModel(
             name='Report',
             fields=[
@@ -108,9 +94,7 @@ class Migration(migrations.Migration):
             ],
         ),
 
-        # =========================
         # Rollen-Anträge
-        # =========================
         migrations.CreateModel(
             name='RoleRequest',
             fields=[

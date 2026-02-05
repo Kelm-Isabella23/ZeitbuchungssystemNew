@@ -1,20 +1,7 @@
-# Nachrichtensystem für Benutzerfeedback (Fehler-/Info-Meldungen im UI)
-from django.contrib import messages
-
-# Authentifizierungsfunktionen:
-# authenticate: prüft Benutzername/Passwort
-# login: meldet Benutzer an
-# logout: meldet Benutzer ab
-from django.contrib.auth import authenticate, login, logout
-
-# Standard-Django-User-Modell
-# Wird hier für Registrierung und Existenzprüfung genutzt
-from django.contrib.auth.models import User
-
-# Hilfsfunktionen für Responses:
-# redirect: Weiterleitung auf eine URL
-# render: Template + Context zurückgeben
-from django.shortcuts import redirect, render
+from django.contrib import messages #Nachrichtensystem für Benutzerfeedback (Fehler-/Info-Meldungen im UI)
+from django.contrib.auth import authenticate, login, logout  #Authentifizierungsfunktionen - authenticate: prüft Benutzername/Passwort, login: meldet Benutzer an, logout: meldet Benutzer ab
+from django.contrib.auth.models import User # Standard-Django-User-Modell (Registrierung und Existenzprüfung)
+from django.shortcuts import redirect, render  #Hilfsfunktionen für Responses- redirect: Weiterleitung auf eine URL, render: Template + Context zurückgeben
 
 
 def home(request):
