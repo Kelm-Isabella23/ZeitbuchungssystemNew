@@ -8,8 +8,7 @@ from time_tracker.services import export_reports, import_reports_overwrite  #Ser
 @require_role("VIP", "ADMIN")
 def vip_export(request):
     """
-    Exportiert Zeitbuchungen des Benutzers in ein bestimmtes Format
-    (json, csv oder xml) und liefert die Datei als Download aus.
+    Exportiert Zeitbuchungen des Benutzers in ein bestimmtes Format (json, csv oder xml) und liefert die Datei als Download aus
     """
     # Gewünschtes Exportformat aus der URL lesen (Standard: json)
     fmt = request.GET.get("format", "json")
@@ -30,8 +29,7 @@ def vip_export(request):
 @require_role("VIP", "ADMIN")
 def vip_import(request):
     """
-    Importiert Zeitbuchungen aus einer hochgeladenen Datei
-    und überschreibt bestehende Reports des Benutzers.
+    Importiert Zeitbuchungen aus einer hochgeladenen Datei und überschreibt bestehende Reports des Benutzers
     """
     if request.method == "POST":
         fmt = request.POST.get("format")

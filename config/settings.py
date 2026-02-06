@@ -1,7 +1,7 @@
 """
-Zentrale Konfigurationsdatei des Django-Projekts.
-Enthält alle grundlegenden Einstellungen wie Apps, Datenbank,
-Sicherheit, Templates und statische Dateien.
+Zentrale Konfigurationsdatei des Django-Projekts
+(Enthält alle grundlegenden Einstellungen wie Apps, Datenbank,
+Sicherheit, Templates und statische Dateien)
 """
 
 # Stellt die Path-Klasse bereit, um Dateipfade betriebssystemunabhängig zu verwalten

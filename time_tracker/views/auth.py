@@ -6,10 +6,8 @@ from django.shortcuts import redirect, render  #Hilfsfunktionen für Responses- 
 
 def home(request):
     """
-    Startseite der Anwendung.
-
-    Leitet eingeloggte Nutzer direkt zum Dashboard weiter,
-    ansonsten zur Login-Seite.
+    Startseite der Anwendung
+    (Leitet eingeloggte Nutzer direkt zum Dashboard weiter, ansonsten zur Login-Seite)
     """
     if request.user.is_authenticated:
         return redirect("dashboard")
@@ -18,10 +16,8 @@ def home(request):
 
 def register_view(request):
     """
-    Registriert einen neuen Benutzer.
-
-    Erstellt einen User, meldet ihn direkt an
-    und leitet zum Dashboard weiter.
+    Registriert einen neuen Benutzer
+    (Erstellt einen User, meldet ihn direkt an und leitet zum Dashboard weiter)
     """
     if request.method == "POST":
         username = request.POST.get("username", "").strip()
@@ -47,7 +43,7 @@ def register_view(request):
 
 def login_view(request):
     """
-    Login-Funktion für bestehende Benutzer.
+    Login-Funktion für bestehende Benutzer
     """
     if request.method == "POST":
         username = request.POST.get("username", "").strip()
@@ -75,7 +71,7 @@ def login_view(request):
 
 def logout_view(request):
     """
-    Meldet den Benutzer ab und leitet zur Login-Seite weiter.
+    Meldet den Benutzer ab und leitet zur Login-Seite weiter
     """
     logout(request)
     return redirect("login")

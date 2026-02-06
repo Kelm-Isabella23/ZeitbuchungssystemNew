@@ -1,8 +1,6 @@
 """
-ASGI-Konfigurationsdatei des Django-Projekts.
-
-Stellt den Einstiegspunkt für ASGI-kompatible Server bereit
-(z. B. für asynchrone Anwendungen, WebSockets oder moderne Deployments).
+ASGI-Konfigurationsdatei des Django-Projekts
+(Stellt den Einstiegspunkt für ASGI-kompatible Server bereit)
 """
 
 import os  # Zugriff auf Betriebssystem-Funktionen zum Setzen von Umgebungsvariablen

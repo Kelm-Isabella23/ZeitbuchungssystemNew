@@ -6,10 +6,8 @@ from time_tracker.services import get_module_stats #Service-Funktion zur Berechn
 @login_required
 def print_report(request):
     """
-    Druckansicht der Zeitstatistik eines Benutzers.
-
-    Zeigt aggregierte Zeiten je Modul sowie
-    die Gesamtarbeitszeit an.
+    Druckansicht der Zeitstatistik eines Benutzers
+    (Zeigt aggregierte Zeiten je Modul sowie die Gesamtarbeitszeit an)
     """
     # Holt Statistikdaten aus der Service-Schicht
     rows, total_all = get_module_stats(request.user)

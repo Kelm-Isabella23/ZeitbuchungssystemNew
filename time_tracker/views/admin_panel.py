@@ -9,18 +9,18 @@ from time_tracker.models import RoleRequest #Modell für Rollen-Anträge
 @login_required
 def request_vip(request):
 
-    # Nur normale User dürfen VIP beantragen
+    #nur normale User dürfen VIP beantragen
     if request.user.profile.role != "USER":
         return redirect("dashboard")
 
-    # Prüft, ob bereits ein offener VIP-Antrag existiert
+    #prüft, ob bereits ein offener VIP-Antrag existiert
     if RoleRequest.objects.filter(
         user=request.user, requested_role="VIP", status="PENDING"
     ).exists():
         messages.info(request, "Du hast bereits einen offenen VIP-Antrag.")
         return redirect("dashboard")
 
-    # Legt neuen Antrag an
+    #legt neuen Antrag an
     RoleRequest.objects.create(user=request.user, requested_role="VIP")
     messages.success(request, "VIP-Antrag wurde gestellt.")
     return redirect("dashboard")
@@ -29,18 +29,18 @@ def request_vip(request):
 @login_required
 def request_admin(request):
     
-    # Nur VIP darf Admin beantragen
+    #nur VIP darf Admin beantragen
     if request.user.profile.role != "VIP":
         return redirect("dashboard")
 
-    # Prüft, ob bereits ein offener Admin-Antrag existiert
+    #prüft, ob bereits ein offener Admin-Antrag existiert
     if RoleRequest.objects.filter(
         user=request.user, requested_role="ADMIN", status="PENDING"
     ).exists():
         messages.info(request, "Du hast bereits einen offenen Admin-Antrag.")
         return redirect("dashboard")
 
-    # Legt neuen Antrag an
+    #legt neuen Antrag an
     RoleRequest.objects.create(user=request.user, requested_role="ADMIN")
     messages.success(request, "Admin-Antrag wurde gestellt.")
     return redirect("dashboard")
@@ -49,19 +49,19 @@ def request_admin(request):
 @require_role("ADMIN")
 def admin_requests(request):
     
-    # Lädt alle offenen Anträge, neueste zuerst
+    #lädt alle offenen Anträge, neueste zuerst
     pending = (
         RoleRequest.objects.filter(status="PENDING")
         .select_related("user")
         .order_by("-created_at")
     )
 
-    # POST: Admin entscheidet über einen Antrag
+    #POST: Admin entscheidet über einen Antrag
     if request.method == "POST":
         req_id = request.POST.get("req_id")
         action = request.POST.get("action")
 
-        # Holt den passenden offenen Antrag (Sicherheitscheck)
+        #holt den passenden offenen Antrag (Sicherheitscheck)
         rr = (
             RoleRequest.objects.filter(id=req_id, status="PENDING")
             .select_related("user")
@@ -71,11 +71,11 @@ def admin_requests(request):
             return redirect("admin_requests")
 
         if action == "approve":
-            # Antrag genehmigen
+            #Antrag genehmigen
             rr.status = "APPROVED"
             rr.save()
 
-            # Rolle im Profil des Users setzen
+            #Rolle im Profil des Users setzen
             profile = rr.user.profile
             profile.role = rr.requested_role
             profile.save()
@@ -86,14 +86,14 @@ def admin_requests(request):
             )
 
         elif action == "reject":
-            # Antrag ablehnen
+            #Antrag ablehnen
             rr.status = "REJECTED"
             rr.save()
             messages.info(request, f"Antrag abgelehnt: {rr.user.username}.")
 
         return redirect("admin_requests")
 
-    # GET: Seite anzeigen
+    #GET: Seite anzeigen
     return render(
         request,
         "admin_requests.html",
@@ -104,25 +104,25 @@ def admin_requests(request):
 @require_role("ADMIN")
 def admin_users(request):
   
-    # Lädt alle User inkl. Profil (für role/is_blocked Anzeige)
+    #lädt alle User inkl. Profil (für role/is_blocked Anzeige)
     users = User.objects.all().select_related("profile").order_by("username")
 
-    # POST: block/unblock Aktion auf einen User
+    #POST: block/unblock Aktion auf einen User
     if request.method == "POST":
         user_id = request.POST.get("user_id")
         action = request.POST.get("action")
 
-        # Sicherheitscheck: User muss existieren
+        #Sicherheitscheck: User muss existieren
         u = User.objects.filter(id=user_id).first()
         if u is None:
             return redirect("admin_users")
 
-        # Superuser soll nicht gesperrt werden können
+        #Superuser soll nicht gesperrt werden können
         if u.is_superuser:
             messages.error(request, "Superuser kann nicht gesperrt werden.")
             return redirect("admin_users")
 
-        # Benutzer sperren oder entsperren (über Profile-Flag)
+        #Benutzer sperren oder entsperren (über Profile-Flag)
         if action == "block":
             u.profile.is_blocked = True
             u.profile.save()
@@ -132,7 +132,7 @@ def admin_users(request):
 
         return redirect("admin_users")
 
-    # GET: Seite anzeigen
+    #GET: Seite anzeigen
     return render(
         request,
         "admin_users.html",

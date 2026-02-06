@@ -1,20 +1,9 @@
-# Stellt die Django-Admin-Funktionalitäten bereit
-# Ermöglicht das Registrieren und Anpassen von Modellen im Admin-Backend
-from django.contrib import admin
-
-# Importiert die Datenmodelle der time_tracker-App,
-# die im Admin-Bereich verwaltet werden sollen
-from .models import Profile, Module, Report, RoleRequest
+from django.contrib import admin # Stellt die Django-Admin-Funktionalitäten bereit (Ermöglicht das Registrieren und Anpassen von Modellen im Admin-Backend)
+from .models import Profile, Module, Report, RoleRequest # Importiert die Datenmodelle der time_tracker-App, die im Admin-Bereich verwaltet werden sollen
 
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    """
-    Admin-Konfiguration für Benutzerprofile.
-
-    Definiert, welche Felder im Admin-Backend angezeigt,
-    gefiltert und durchsucht werden können.
-    """
 
     # Spaltenübersicht in der Listenansicht
     list_display = ("user", "role", "is_blocked")
@@ -28,10 +17,6 @@ class ProfileAdmin(admin.ModelAdmin):
 
 @admin.register(Module)
 class ModuleAdmin(admin.ModelAdmin):
-    """
-    Admin-Konfiguration für Module,
-    denen Arbeitszeiten zugeordnet werden können.
-    """
 
     list_display = ("name", "is_active")
     list_filter = ("is_active",)
@@ -40,12 +25,6 @@ class ModuleAdmin(admin.ModelAdmin):
 
 @admin.register(Report)
 class ReportAdmin(admin.ModelAdmin):
-    """
-    Admin-Konfiguration für Zeitbuchungen (Reports).
-
-    Ermöglicht eine übersichtliche Verwaltung
-    der erfassten Arbeitszeiten.
-    """
 
     list_display = ("user", "date", "minutes", "module", "created_at")
     list_filter = ("module", "date")
@@ -59,9 +38,8 @@ class ReportAdmin(admin.ModelAdmin):
 class RoleRequestAdmin(admin.ModelAdmin):
     """
     Admin-Konfiguration für Rollenanfragen von Benutzern.
-
-    Dient zur Prüfung und Bearbeitung von
-    Berechtigungsanfragen im System.
+    (Dient zur Prüfung und Bearbeitung von
+    Berechtigungsanfragen im System)
     """
 
     list_display = ("user", "requested_role", "status", "created_at")

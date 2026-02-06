@@ -9,7 +9,7 @@ from time_tracker.forms import ReportForm #Formular zur Erstellung und Bearbeitu
 @login_required
 def reports_list(request):
     """
-    Listet alle Zeitbuchungen (Reports) des eingeloggten Nutzers auf.
+    Listet alle Zeitbuchungen (Reports) des eingeloggten Nutzers auf
     """
     reports = (
         Report.objects.filter(user=request.user)
@@ -27,7 +27,7 @@ def reports_list(request):
 @login_required
 def report_new(request):
     """
-    Erstellt eine neue Zeitbuchung.
+    Erstellt eine neue Zeitbuchung
     """
     if request.method == "POST":
         form = ReportForm(request.POST)
@@ -62,7 +62,7 @@ def report_new(request):
 @login_required
 def report_edit(request, report_id: int):
     """
-    Bearbeitet eine bestehende Zeitbuchung des eingeloggten Nutzers.
+    Bearbeitet eine bestehende Zeitbuchung des eingeloggten Nutzers
     """
     report = get_object_or_404(Report, id=report_id, user=request.user)
 
@@ -90,7 +90,7 @@ def report_edit(request, report_id: int):
 @login_required
 def report_delete(request, report_id: int):
     """
-    Löscht eine Zeitbuchung (nur per POST).
+    Löscht eine Zeitbuchung (nur per POST)
     """
     if request.method == "POST":
         Report.objects.filter(id=report_id, user=request.user).delete()

@@ -6,10 +6,8 @@ from time_tracker.services import get_module_stats # Service-Funktion zur Berech
 @login_required
 def dashboard(request):
     """
-    Dashboard-Ansicht für eingeloggte Benutzer.
-
-    Zeigt eine statistische Übersicht der erfassten Zeiten
-    (Minuten pro Modul und Gesamtaufwand).
+    Dashboard-Ansicht für eingeloggte Benutzer:
+    Zeigt eine statistische Übersicht der erfassten Zeiten (Minuten pro Modul und Gesamtaufwand)
     """
     # Holt aggregierte Statistikdaten aus der Service-Schicht
     rows, total_all = get_module_stats(request.user)

@@ -7,9 +7,8 @@ from django.db import migrations, models  #Django-Migrations-Framework - migrati
 
 class Migration(migrations.Migration):
     """
-    Initiale Migration der time_tracker-App.
-
-    Erstellt alle Tabellen, die für die App benötigt werden.
+    Initiale Migration der time_tracker-App
+    (Erstellt alle Tabellen, die für die App benötigt werden)
     """
 
     # Kennzeichnet diese Migration als erste Migration der App

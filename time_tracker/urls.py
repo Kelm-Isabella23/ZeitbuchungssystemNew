@@ -1,57 +1,36 @@
-# Funktion zur Definition von URL-Pfaden
-# Verknüpft URL-Muster mit View-Funktionen
-from django.urls import path
-
-# Importiert die View-Module der App
-# Die fachliche Logik ist dabei nach Themen getrennt
-from .views import auth, dashboard, reports, admin_panel, vip, print_views
+from django.urls import path  #Funktion zur Definition von URL-Pfaden, verknüpft URL-Muster mit View-Funktionen
+from .views import auth, dashboard, reports, admin_panel, vip, print_views  #Importiert die View-Module der App (fachliche Logik ist dabei nach Themen getrennt)
 
 
-# URL-Routen der time_tracker-App
+
+#URL-Routen der time_tracker-App
 urlpatterns = [
-    # =========================
-    # Öffentliche Seiten & Authentifizierung
-    # =========================
 
+    #Öffentliche Seiten & Authentifizierung:
     path("", auth.home, name="home"),
     path("register/", auth.register_view, name="register"),
     path("login/", auth.login_view, name="login"),
     path("logout/", auth.logout_view, name="logout"),
 
-    # =========================
-    # Dashboard
-    # =========================
-
+    #Dashboard:
     path("dashboard/", dashboard.dashboard, name="dashboard"),
 
-    # =========================
-    # Zeitbuchungen (Reports)
-    # =========================
-
+    #Zeitbuchungen (Reports):
     path("reports/", reports.reports_list, name="reports_list"),
     path("reports/new/", reports.report_new, name="report_new"),
     path("reports/<int:report_id>/edit/", reports.report_edit, name="report_edit"),
     path("reports/<int:report_id>/delete/", reports.report_delete, name="report_delete"),
 
-    # =========================
-    # Admin-Funktionen & Rollenverwaltung
-    # =========================
-
+    #Admin-Funktionen & Rollenverwaltung:
     path("request-vip/", admin_panel.request_vip, name="request_vip"),
     path("request-admin/", admin_panel.request_admin, name="request_admin"),
     path("admin-panel/requests/", admin_panel.admin_requests, name="admin_requests"),
     path("admin-panel/users/", admin_panel.admin_users, name="admin_users"),
 
-    # =========================
-    # VIP-Funktionen (Import / Export)
-    # =========================
-
+    #VIP-Funktionen (Import/Export):
     path("vip/export/", vip.vip_export, name="vip_export"),
     path("vip/import/", vip.vip_import, name="vip_import"),
 
-    # =========================
-    # Druckansicht
-    # =========================
-
+    #Druckansicht:
     path("print/", print_views.print_report, name="print_report"),
 ]
